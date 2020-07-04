@@ -1,20 +1,20 @@
 import pandas as pd
 import numpy as np
 
+
 class NeuralNetwork(object):
     def __init__(self, dimensions, learning_rate):
-        
         self.dimensions= dimensions
         self.parameters= {}
         self.learning_rate= learning_rate
-        
         np.random.seed(5)
         for i in range(1,len(self.dimensions)):
             self.parameters['W'+str(i)]=np.random.randn(self.dimensions[i-1],self.dimensions[i])*np.sqrt(2/dimensions[i-1])
             self.parameters['b'+str(i)]=np.zeros((1,self.dimensions[i]))
     
     def sigmoid(self,Z):
-        ''' Función de activación sigmoide
+        ''' 
+        Función de activación sigmoide
         '''
         return 1 / (1 + np.exp(-Z))
     
@@ -46,10 +46,7 @@ class NeuralNetwork(object):
         error: error de la predicción
         hidden_delta: error propagado a la capa oculta
         """
-        
-    
         error= y-output_layer
-
         hidden_error= np.dot(error,self.parameters['W2'].T)
         hidden_delta= hidden_error *(hidden_layer*(1-hidden_layer))
 
@@ -93,3 +90,11 @@ class NeuralNetwork(object):
         X:Features con los cuales se entrena el modelo """
         hidden_layer,output_layer=self.forward_prop(X)
         return output_layer
+
+    @staticmethod
+    def MSE(y=None, Y=None):
+        """Calcula Mean Squared Error"""
+        return 1/2*np.mean((y-Y)**2)
+
+
+
